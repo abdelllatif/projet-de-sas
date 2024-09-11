@@ -31,27 +31,41 @@ int dim = 0;
 int dimm = 0;
 int i, j, nbr;
 etudiant temp;
-
 void ajouter_etud() {
+    int id_et;
+    int found = 0;
     printf("Entrez l'id de l'etudiant (unique) : ");
-    scanf("%d", &t[dim].numero_unique);
-    printf("Entrez le nom : ");
-    scanf(" %29[^\n]", t[dim].nom);
-    printf("Entrez le prenom : ");
-    scanf(" %29[^\n]", t[dim].prenom);
-    printf("Date de naissance.\n");
-    printf("Annee : ");
-    scanf("%d", &t[dim].date.annee);
-    printf("Mois : ");
-    scanf("%d", &t[dim].date.mois);
-    printf("Jour : ");
-    scanf("%d", &t[dim].date.jour);
-    printf("Entrez l'id du departement : ");
-    scanf("%d", &t[dim].id_departement);
-    printf("\nEntrez la note generale de l'etudiant : ");
-    scanf("%f", &t[dim].note_generale);
-    dim++;
+    scanf("%d", &id_et);
+    for (i = 0; i < dim; i++) {
+        if (t[i].numero_unique == id_et) {
+            found = 1;
+            break;
+        }
+    }
+    if (found) {
+        printf("Cet ID est deja utilise !\n");
+    } else {
+        t[dim].numero_unique = id_et;
+        printf("Entrez le nom : ");
+        scanf(" %29[^\n]", t[dim].nom);
+        printf("Entrez le prenom : ");
+        scanf(" %29[^\n]", t[dim].prenom);
+        printf("Date de naissance.\n");
+        printf("Annee : ");
+        scanf("%d", &t[dim].date.annee);
+        printf("mois : ");
+        scanf("%d", &t[dim].date.mois);
+        printf("jour : ");
+        scanf("%d", &t[dim].date.jour);
+        printf("entrez l'id du departement : ");
+        scanf("%d", &t[dim].id_departement);
+        printf("Entrez la note generale de l'etudiant : ");
+        scanf("%f", &t[dim].note_generale);
+
+        dim++;
+    }
 }
+
 
 void ajouter_dep() {
     printf("\nEntrez l'id du departement (unique) : ");
@@ -298,19 +312,19 @@ void trier_par_statut() {
 
 void menu() {
     printf("****************Menu :****************\n");
-    printf("\t\t**** Liste des choix ****\n");
-    printf("\t\t1. Ajouter etudiant\n");
-    printf("\t\t2. Ajouter departement\n");
+    printf("**** Liste des choix ****\n");
+    printf("1. Ajouter etudiant\n");
+    printf("2. Ajouter departement\n");
     printf("3. Modifier les informations pour un etudiant\n");
     printf("4. Supprimer les informations pour un etudiant\n");
     printf("5. Afficher les informations d'un etudiant\n");
-    printf("6. Calculer la moyenne generale pour un departement\n\t\t\t et pour l'universite\n");
+    printf("6. Calculer la moyenne generale pour un departement\n et pour l'universite\n");
     printf("7. Afficher les statistiques de l'universite\n");
-    printf("\t\t\t8. Chercher un etudiant\n");
+    printf("8. Chercher un etudiant\n");
     printf("9. Afficher les etudiants par ordre alphabetique\n");
     printf("10. Trier les etudiants par moyenne generale\n");
-    printf("\t11. Afficher le statut de reussite\n");
-    printf("\t\t\t   12. Quitter\n");
+    printf("11. Afficher le statut de reussite\n");
+    printf(" 12. Quitter\n");
     printf("****************************************\n");
 }
 
@@ -319,7 +333,7 @@ int main() {
     do {
             printf("\n\n");
         menu();
-         printf("\t\tEntrez un choix pour continuer :\n");
+         printf("Entrez un choix pour continuer :");
         scanf("%d", &choix);
         switch (choix) {
             case 1:
@@ -361,7 +375,8 @@ int main() {
             default:
                 printf("Choix invalide !\n");
                 break;
-        }
+    }
+    printf("\n");
     } while (choix != 12);
     return 0;
 }
