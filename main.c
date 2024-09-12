@@ -24,7 +24,7 @@ typedef struct {
     date_ness date;
 } etudiant;
 
-etudiant t[100000];
+etudiant t[100];
 departement v[11];
 int dim = 0;
 int dimm = 0;
@@ -72,7 +72,7 @@ void ajouter_dep() {
     scanf("%d", &v[dimm].id_dep);
     printf("\nEntrez le nom du departement : ");
     scanf(" %39[^\n]", v[dimm].nom_dep);
-    v[dimm].moyenne_generale = 0; // Initialize the average to 0
+    v[dimm].moyenne_generale;
     dimm++;
 }
 
@@ -187,7 +187,7 @@ void afficher_statistiques() {
             printf("%s %s : %.2f\n", t[i].nom, t[i].prenom, t[i].note_generale);
         }
     }
-    etudiant tri_meilleur[100000];
+    etudiant tri_meilleur[100];
     memcpy(tri_meilleur, t, sizeof(t));
     for (int i = 0; i < dim - 1; i++) {
         for (int j = i + 1; j < dim; j++) {
@@ -254,8 +254,12 @@ void chercher() {
 }
 
 void afficher_par_alpha() {
-    etudiant b[100000];
-    memcpy(b, t, sizeof(t));
+    etudiant b[100];
+
+    for (int i = 0; i < dim; i++) {
+        b[i] = t[i];
+    }
+
     for (int i = 0; i < dim - 1; i++) {
         for (int j = i + 1; j < dim; j++) {
             if (strcmp(b[i].nom, b[j].nom) > 0) {
@@ -265,14 +269,16 @@ void afficher_par_alpha() {
             }
         }
     }
+
     printf("Etudiants par ordre alphabetique :\n");
     for (int i = 0; i < dim; i++) {
         printf("%s %s : %.2f\n", b[i].nom, b[i].prenom, b[i].note_generale);
     }
 }
 
+
 void trier_par_note() {
-    etudiant b[100000];
+    etudiant b[100];
     memcpy(b, t, sizeof(t));
     for (int i = 0; i < dim - 1; i++) {
         for (int j = i + 1; j < dim; j++) {
@@ -290,21 +296,38 @@ void trier_par_note() {
 }
 
 void trier_par_statut() {
-    etudiant b[100000];
-    memcpy(b, t, sizeof(t));
-    printf("Etudiants ayant reussi (note >= 10) :\n");
-    for (int i = 0; i < dim; i++) {
-        if (b[i].note_generale >= 10) {
-            printf("%s %s : %.2f\n", b[i].nom, b[i].prenom, b[i].note_generale);
+    printf("Les etudiants passes par departement :\n");
+    for (int j = 0; j < dimm; j++) {
+        printf("\n");
+        printf("*****Departement %s*****\n", v[j].nom_dep);
+        for (int i = 0; i < dim; i++) {
+            if (t[i].note_generale >= 10 &&t[i].note_generale < 12&& t[i].id_departement == v[j].id_dep) {
+                printf("%s %s : %.2f passable \n", t[i].nom, t[i].prenom, t[i].note_generale);
+            }
+            if (t[i].note_generale >= 12 &&t[i].note_generale < 14 && t[i].id_departement == v[j].id_dep) {
+                printf("%s %s : %.2f assez_bien \n", t[i].nom, t[i].prenom, t[i].note_generale);
+            }
+            if (t[i].note_generale >= 14 &&t[i].note_generale < 16  && t[i].id_departement == v[j].id_dep) {
+                printf("%s %s : %.2f bien \n", t[i].nom, t[i].prenom, t[i].note_generale);
+            }
+            if (t[i].note_generale >= 16 && t[i].note_generale < 18 && t[i].id_departement == v[j].id_dep) {
+                printf("%s %s : %.2f tres bien \n", t[i].nom, t[i].prenom, t[i].note_generale);
+            }
+            if (t[i].note_generale >= 16&&t[i].note_generale < 18 && t[i].id_departement == v[j].id_dep) {
+                printf("%s %s : %.2f exellent \n", t[i].nom, t[i].prenom, t[i].note_generale);
+            }
         }
+        printf("*******************************");
+        printf("\n");
     }
 }
 
+
 void menu() {
-    printf("****************Menu :****************\n");
-    printf("\t\t**** Liste des choix ****\n");
-    printf("\t\t1. Ajouter etudiant\n");
-    printf("\t\t2. Ajouter departement\n");
+    printf("*******Menu*******\n");
+    printf("** Liste des choix**\n");
+    printf("1. Ajouter etudiant\n");
+    printf("2. Ajouter departement\n");
     printf("3. Modifier les informations pour un etudiant\n");
     printf("4. Supprimer les informations pour un etudiant\n");
     printf("5. Afficher les informations d'un etudiant\n");
@@ -315,28 +338,21 @@ void menu() {
     printf("10. Trier les etudiants par moyenne generale\n");
     printf("\t11. Afficher le statut de reussite\n");
     printf("\t\t\t   12. Quitter\n");
-    printf("****************************************\n");
+    printf("**************\n");
 }
 
 int main() {
     int choix;
-
-    // Initialize departments
-    strcpy(v[0].nom_dep, "Informatique");
+   strcpy(v[0].nom_dep, "Informatique");
     v[0].id_dep = 1;
     v[0].moyenne_generale = 0;
-
     strcpy(v[1].nom_dep, "Mathematiques");
     v[1].id_dep = 2;
     v[1].moyenne_generale = 0;
-
     strcpy(v[2].nom_dep, "Physique");
     v[2].id_dep = 3;
     v[2].moyenne_generale = 0;
-
     dimm = 3;
-
-    // Initialize students
     t[0].numero_unique = 1001;
     strcpy(t[0].nom, "Ahmed");
     strcpy(t[0].prenom, "Ali");
@@ -345,7 +361,6 @@ int main() {
     t[0].date.annee = 2000;
     t[0].id_departement = 1;
     t[0].note_generale = 14.5;
-
     t[1].numero_unique = 1002;
     strcpy(t[1].nom, "Sara");
     strcpy(t[1].prenom, "Fatma");
